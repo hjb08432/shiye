@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f2ede3">
+  <meta name="description" content="拾页：输入你喜欢的类型，从网络小说、现实向文学与类型出版中，找到下一本小说，并查看编辑书评与正版阅读资源。">
+  <title>拾页 · 找到你的下一本小说</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='5' fill='%23b34128'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23fdf6ea' font-family='serif'%3E%E6%8B%BE%3C/text%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        if (window.localStorage.getItem("shiye-theme") === "night") {
+          document.documentElement.dataset.theme = "night";
+        }
+      } catch (error) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#matcher">跳到选书</a>
+  <div class="page-grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="拾页，回到首页">
+        <span class="brand-seal" aria-hidden="true">拾</span>
+        <span class="brand-copy">
+          <strong>拾页</strong>
+          <small>SHIYE · READING COMPASS</small>
+        </span>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <button class="nav-link" type="button" data-scroll="#matcher">找书</button>
+        <button class="nav-link" type="button" id="openShelf">
+          书架 <span class="nav-badge" id="shelfCount">0</span>
+        </button>
+        <button class="nav-link" type="button" id="openAbout">关于</button>
+        <button class="icon-button theme-toggle" type="button" id="themeToggle" aria-label="切换夜间模式" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"></path>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-rule" aria-hidden="true"></span>A READER'S COMPASS / 小说推荐引擎</p>
+          <h1>把「想看什么」<br><span class="ink-accent">变成「下一本」。</span></h1>
+          <p class="hero-lede">从克苏鲁的迷雾到小镇的黄昏，从起点长篇到严肃文学。<br>说出你的口味，拾页替你把书架翻一遍。</p>
+          <div class="hero-stats" aria-label="书库统计">
+            <div class="stat"><span class="stat-number" id="statBooks">43</span><span class="stat-label">本严选</span></div>
+            <div class="stat"><span class="stat-number" id="statWeb">18</span><span class="stat-label">网络小说</span></div>
+            <div class="stat"><span class="stat-number" id="statLiterary">12</span><span class="stat-label">现实向</span></div>
+            <div class="stat"><span class="stat-number" id="statGenres">13</span><span class="stat-label">类型出版</span></div>
+          </div>
+          <p class="hero-note">每一本都附编辑书评、口碑关键词与正版阅读入口。</p>
+        </div>
+
+        <aside class="daily-card" aria-labelledby="dailyTitle">
+          <div class="daily-header">
+            <p class="eyebrow">EDITOR'S DRAW / 今日签</p>
+            <span class="daily-date" id="dailyDate">11.01</span>
+          </div>
+          <div class="daily-body">
+            <div class="mini-cover" id="dailyCover" aria-hidden="true"></div>
+            <div class="daily-copy">
+              <p class="daily-kicker">如果今天只读一本</p>
+              <h2 id="dailyTitle">正在翻书…</h2>
+              <p class="daily-author" id="dailyAuthor"></p>
+              <p class="daily-line" id="dailyLine"></p>
+            </div>
+          </div>
+          <div class="daily-footer">
+            <button class="text-button" type="button" id="dailyOpen">翻开这本 <span aria-hidden="true">↗</span></button>
+            <span class="daily-stamp" aria-hidden="true">拾页<br>选书</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="matcher shell" id="matcher" aria-labelledby="matcherTitle">
+      <div class="section-heading">
+        <p class="section-index">01</p>
+        <div>
+          <p class="eyebrow">TELL ME YOUR TASTE</p>
+          <h2 id="matcherTitle">你现在，想读什么样的故事？</h2>
+        </div>
+        <p class="section-aside">可以输入类型、氛围、人物，或一句模糊的感觉。选书不是考试，说个大概就好。</p>
+      </div>
+
+      <form class="search-panel" id="searchForm" autocomplete="off">
+        <div class="search-row">
+          <label class="sr-only" for="query">输入喜欢的类型</label>
+          <div class="query-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4.1-4.1"></path>
+            </svg>
+            <input id="query" name="query" type="search" maxlength="80" placeholder="例如：克苏鲁 + 群像 + 已完结，不要太虐">
+            <button class="clear-input" type="button" id="clearQuery" hidden>清空</button>
+          </div>
+          <button class="primary-button" type="submit">
+            <span>替我找书</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="search-hint" id="searchHint">支持自然语言：想看点轻松的悬疑，最好短一点，不要 BE。</p>
+
+        <div class="quick-filter">
+          <div class="quick-head">
+            <span>或者，从这些词开始</span>
+            <button class="link-button" type="button" id="clearChips" hidden>清除已选</button>
+          </div>
+          <div class="chip-list" id="quickChips" role="group" aria-label="快速偏好"></div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="segmented" id="kindFilter" role="group" aria-label="书库类型"></div>
+          <div class="filter-actions">
+            <button class="filter-toggle" type="button" id="filterToggle" aria-expanded="false" aria-controls="advancedFilters">
+              更多筛选
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"></path></svg>
+            </button>
+            <button class="text-button lucky-button" type="button" id="luckyBtn">手气不错 <span aria-hidden="true">✦</span></button>
+          </div>
+        </div>
+
+        <div class="advanced-filters" id="advancedFilters" hidden>
+          <label class="select-field">
+            <span>阅读状态</span>
+            <select id="statusFilter"></select>
+          </label>
+          <label class="select-field">
+            <span>篇幅</span>
+            <select id="lengthFilter"></select>
+          </label>
+          <label class="select-field">
+            <span>排序</span>
+            <select id="sortSelect">
+              <option value="match">匹配度优先</option>
+              <option value="score">编辑评分优先</option>
+              <option value="length">篇幅从短到长</option>
+            </select>
+          </label>
+          <button class="link-button reset-filters" type="button" id="resetFilters">清空全部条件</button>
+        </div>
+
+        <div class="active-criteria" id="activeCriteria" hidden></div>
+      </form>
+    </section>
+
+    <section class="results shell" id="results" aria-labelledby="resultsTitle">
+      <div class="results-heading">
+        <div class="section-heading compact">
+          <p class="section-index">02</p>
+          <div>
+            <p class="eyebrow" id="resultsEyebrow">EDITOR'S SHELF</p>
+            <h2 id="resultsTitle">先从这里翻起</h2>
+          </div>
+        </div>
+        <p class="results-count" id="resultsCount" aria-live="polite">9 本编辑精选</p>
+      </div>
+
+      <div id="featuredMount"></div>
+      <div class="book-grid" id="bookGrid"></div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <p class="empty-mark" aria-hidden="true">空</p>
+        <p class="eyebrow">A BLANK PAGE</p>
+        <h3>这一页，暂时没有翻到合适的故事。</h3>
+        <p id="emptyCopy">试试换一个说法，或者把条件放宽一点。比如：克苏鲁、群像、已完结。</p>
+        <div class="empty-actions">
+          <button class="primary-button" type="button" id="emptyReset">回到编辑精选</button>
+          <button class="text-button" type="button" id="emptyLucky">随机翻一本 <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+
+      <p class="results-footnote" id="resultsFootnote" hidden></p>
+    </section>
+
+    <section class="principles" aria-labelledby="principlesTitle">
+      <div class="shell">
+        <div class="principles-heading">
+          <p class="eyebrow">WHY SHIYE</p>
+          <h2 id="principlesTitle">不是榜单，是一间有人看店的书房。</h2>
+        </div>
+        <div class="principle-grid">
+          <article class="principle">
+            <span class="principle-index">01</span>
+            <h3>双轨书单</h3>
+            <p>网络小说与现实向文学并排摆放。既能找一本追更的爽文，也能找一本读完想很久的书。</p>
+          </article>
+          <article class="principle">
+            <span class="principle-index">02</span>
+            <h3>有立场的评价</h3>
+            <p>不只说“好看”。每本书都写清长处、短处、适合谁读，以及读者口碑里的那点复杂。</p>
+          </article>
+          <article class="principle">
+            <span class="principle-index">03</span>
+            <h3>只指正版入口</h3>
+            <p>资源只跳转官方阅读平台、电子书、图书电商与图书馆检索。不提供盗版下载，也不做资源搬运。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div class="footer-brand">
+        <span class="brand-seal small" aria-hidden="true">拾</span>
+        <div>
+          <strong>拾页</strong>
+          <p>给下一次阅读，留一盏灯。</p>
+        </div>
+      </div>
+      <p class="footer-note">书单与资源入口最后校对：2026.11。评分与书评均为拾页编辑视角，不代表任何平台官方评分；连载状态与版权以平台为准。</p>
+      <button class="link-button" type="button" data-scroll="#top">回到顶部 ↑</button>
+    </div>
+  </footer>
+
+  <dialog class="modal book-modal" id="bookDialog" aria-labelledby="bookModalTitle">
+    <div class="modal-panel">
+      <button class="modal-close" type="button" data-close-dialog aria-label="关闭详情">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+      <div id="bookModalBody"></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="shelfDialog" aria-labelledby="shelfTitle">
+    <div class="modal-panel shelf-panel">
+      <button class="modal-close" type="button" data-close-dialog aria-label="关闭书架">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+      <div class="modal-heading">
+        <p class="eyebrow">YOUR SHELF</p>
+        <h2 id="shelfTitle">我的书架</h2>
+        <p>还没决定也没关系，先把心动的那几本放在这里。</p>
+      </div>
+      <div id="shelfBody"></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="aboutDialog" aria-labelledby="aboutTitle">
+    <div class="modal-panel about-panel">
+      <button class="modal-close" type="button" data-close-dialog aria-label="关闭关于">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+      <div class="modal-heading">
+        <p class="eyebrow">ABOUT SHIYE</p>
+        <h2 id="aboutTitle">关于拾页</h2>
+      </div>
+      <div class="about-copy">
+        <p>拾页是一间很小的线上书房。它不追求把所有书都收进来，只想把“你可能会喜欢”的那几本，放到你手边。</p>
+        <p>这里的评分、长评、短处与“是否适合你”，都来自编辑策展，不是豆瓣或平台的大众评分。我们把好评与争议一起写出来，因为一本书从来不是只有一种读法。</p>
+        <p>资源入口只连接正版平台、电子书、电商与图书馆检索，不提供盗版下载。网络小说的连载状态、实体书的在售情况会变化，请以平台页面为准。</p>
+        <div class="about-facts">
+          <div><strong id="aboutBooks">43</strong><span>本严选书目</span></div>
+          <div><strong>3</strong><span>条阅读轨道</span></div>
+          <div><strong>0</strong><span>个盗版链接</span></div>
+        </div>
+        <p class="about-small">最后校对：2026 年 11 月。若发现书目信息有误，欢迎在下次版本里纠正它。</p>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/engine.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
