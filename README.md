@@ -1,8 +1,11 @@
 # 拾页 · 小说推荐工具
 
+> 🌐 **在线访问**：https://hjb08432.github.io/shiye/
+> 📦 仓库：https://github.com/hjb08432/shiye
+
 输入喜欢的类型、氛围或一句模糊的感觉，从 **网络小说、现实向文学、类型出版** 三条轨道里，找到下一本书。
 
-这是一个纯前端、离线可用的单页工具。无需安装依赖，直接用浏览器打开 `index.html` 即可。
+这是一个纯前端、离线可用的单页工具。无需安装依赖，直接用浏览器打开 `index.html` 即可；线上版本由 GitHub Pages 托管。
 
 ## 能做什么
 
@@ -14,7 +17,7 @@
 
 ## 使用
 
-1. 用浏览器打开 `index.html`。
+1. 打开 https://hjb08432.github.io/shiye/ （或本地 `index.html`）。
 2. 输入类型或从快捷标签开始，点击「替我找书」。
 3. 点开任意一本书，查看完整书评、资源与相似作品。
 4. 点书签把书放进「书架」。
@@ -29,6 +32,18 @@ assets/styles.css   视觉与响应式样式
 assets/data.js      43 本书目、评分、书评与配色
 assets/engine.js    偏好解析、匹配、筛选、相似作品与资源链接
 assets/app.js       页面渲染与交互
+.nojekyll           关闭 Jekyll 处理，保证静态文件原样发布
+```
+
+## 部署
+
+本站托管在 **GitHub Pages**（分支 `main`、根目录 `/`、legacy 构建）。
+
+更新流程：改完 `default-workspace/` 里的文件后，运行仓库外的 `deploy/publish.ps1`，脚本会校验身份、提交全部文件、等待 Pages 构建完成并回显线上状态。
+
+```powershell
+$env:GH_TOKEN = "你的 PAT"
+./deploy/publish.ps1
 ```
 
 ## 关于内容
